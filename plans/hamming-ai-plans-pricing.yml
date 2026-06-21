@@ -1,0 +1,81 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Hamming AI
+providerId: hamming-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- Voice Agents
+- LLM
+- Testing
+- Evaluation
+- Observability
+- Plans
+description: >-
+  Hamming AI uses a sales-led, volume-based pricing model rather than published
+  per-seat or self-serve tiers. The company offers startup/SMB plans alongside
+  custom enterprise agreements with dedicated support and SLAs. Access is
+  typically arranged through a demo with your actual agents; specific prices are
+  not published. Tiers and per-unit rates below are not reconciled because they
+  are not publicly documented.
+notes: >-
+  No public price list is available; Hamming states pricing is volume-based
+  (not per-seat) and quoted through sales. Verify current tiers, included
+  volumes, and rates directly with Hamming during reconciliation.
+sources:
+- https://hamming.ai/
+- https://hamming.ai/why-hamming
+- https://docs.hamming.ai
+plans:
+- id: hamming-ai-startup
+  name: Startup / SMB
+  type: subscription
+  description: >-
+    Startup and SMB-oriented plan with volume-based pricing; specific included
+    volumes and price are quoted by Hamming.
+  entries:
+  - label: Startup / SMB Plan
+    name: startup_smb
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Voice & Chat Agent Testing
+  - name: Datasets & Scenarios
+  - name: Evaluations & Scorers
+  - name: Production Monitoring
+- id: hamming-ai-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom enterprise agreement with volume-based pricing, dedicated support,
+    SLAs, single-tenant deployment options, and data residency (US/EU/UK).
+    Contact Hamming sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Support & SLAs
+  - name: Single-Tenant Deployment
+  - name: Data Residency (US / EU / UK)
+  - name: HIPAA BAA
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

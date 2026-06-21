@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Hamming AI
+providerId: hamming-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- Voice Agents
+- LLM
+- Testing
+- Evaluation
+- Observability
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Hamming AI does not publish explicit REST API rate limits. Practical limits
+  are governed by account/plan terms and by voice testing concurrency (Hamming
+  advertises load testing up to 50K+ concurrent test calls on appropriate
+  plans). Per-endpoint request quotas are not publicly documented and are not
+  reconciled in this artifact.
+notes: >-
+  Confirm any per-key request limits, concurrent call/test-run limits, and
+  burst behavior with Hamming during reconciliation; values likely vary by
+  plan and are not published.
+sources:
+- https://docs.hamming.ai
+- https://hamming.ai/
+responseCodes:
+  throttled: 429
+limits:
+- name: REST API Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: No public per-endpoint request rate limit is documented.
+- name: Concurrent Test Calls
+  scope: account
+  metric: concurrent_calls
+  limit: up to 50K+ on supported plans
+  notes: Load testing concurrency advertised by Hamming; actual ceiling depends on plan.
+- name: Voice Experiments
+  scope: account
+  metric: experiments
+  limit: see provider documentation
+  notes: Governed by plan/volume terms rather than a published quota.
+policies:
+- name: Plan-Based Limits
+  description: Limits and concurrency scale with the account's plan and volume agreement.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

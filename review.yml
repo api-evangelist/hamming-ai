@@ -1,0 +1,83 @@
+aid: hamming-ai
+name: Hamming AI
+review:
+  question: Does Hamming AI expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No documented public WebSocket or HTTP Server-Sent Events (SSE) streaming
+    API surface was found for the Hamming platform REST API. The platform's
+    REST API (https://app.hamming.ai/api/rest) and official SDKs
+    (HammingHQ/evals-py, evals-ts) use request/response HTTP only. Voice test
+    runs do connect agents over LiveKit/WebRTC rooms (the
+    /test-runs/create-livekit-rooms endpoint returns a LiveKit room URL and
+    token), but that media transport is LiveKit's, not a Hamming-published
+    WebSocket API, so no AsyncAPI document was authored.
+findings:
+  summary: |
+    Hamming AI is a testing, evaluation, and observability platform for voice
+    and LLM AI agents. Its public surface is a REST API at
+    https://app.hamming.ai/api/rest plus open-source SDKs. The REST API covers
+    experiments/test runs, voice/call testing, datasets, custom scorers,
+    trace/log/call-log ingestion for monitoring, and a prompt registry. Auth
+    is a Bearer API key created at hamming.ai/settings. The full docs site
+    (docs.hamming.ai) is access-code gated, but individual guide pages and the
+    official SDK source confirm the endpoints below. No public WebSocket or
+    SSE API is documented; voice media uses LiveKit/WebRTC rooms provisioned
+    via the REST API.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://app.hamming.ai/api/rest
+      documented: true
+    - protocol: WebRTC (LiveKit)
+      scheme: wss
+      documented: true
+      note: Voice test runs connect agents through LiveKit rooms (room URL + token returned by /test-runs/create-livekit-rooms). This is LiveKit's transport, not a Hamming-published WebSocket API.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No Hamming-owned WebSocket API endpoint is documented in the REST API or SDKs as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://app.hamming.ai/api/rest/experiments
+    - PATCH  https://app.hamming.ai/api/rest/experiments/{experimentId}
+    - POST   https://app.hamming.ai/api/rest/experiments/{experimentId}/items
+    - PATCH  https://app.hamming.ai/api/rest/experiments/{experimentId}/items/{itemId}
+    - POST   https://app.hamming.ai/api/rest/voice-agent/{agent_id}/run
+    - GET    https://app.hamming.ai/api/rest/voice-experiment/{voice_experiment_id}/calls
+    - POST   https://app.hamming.ai/api/rest/test-runs/create-livekit-rooms
+    - GET    https://app.hamming.ai/api/rest/datasets
+    - POST   https://app.hamming.ai/api/rest/datasets
+    - GET    https://app.hamming.ai/api/rest/datasets/{id}
+    - POST   https://app.hamming.ai/api/rest/scoring/register-functions
+    - POST   https://app.hamming.ai/api/rest/traces
+    - POST   https://app.hamming.ai/api/rest/logs
+    - POST   https://app.hamming.ai/api/rest/v2/call-logs
+    - GET    https://app.hamming.ai/api/rest/prompts
+    - GET    https://app.hamming.ai/api/rest/prompts/{slug}
+sources:
+  - url: https://docs.hamming.ai/guides/voice-agent-api
+    type: Documentation
+    note: Voice Agent API guide; POST /voice-agent/{agent_id}/run, GET /voice-experiment/{id}/calls, POST /test-runs/create-livekit-rooms.
+  - url: https://docs.hamming.ai/guides/voice-agent-monitoring
+    type: Documentation
+    note: Monitoring guide; POST /v2/call-logs to forward provider call-ended payloads.
+  - url: https://docs.hamming.ai/guides/custom-scores
+    type: Documentation
+    note: Custom scorers compute a score over an experiment result.
+  - url: https://github.com/HammingHQ/evals-py
+    type: SDK
+    note: Official Python SDK; http_client uses Authorization Bearer and DEFAULT_BASE_URL https://app.hamming.ai/api/rest; resources confirm /datasets, /experiments, /traces, /logs, /scoring/register-functions, /prompts.
+  - url: https://hamming.ai/
+    type: Website
+    note: Product overview; REST APIs for everything, CI/CD integration, LiveKit/WebRTC and SIP, OpenTelemetry ingestion; sales-led pricing.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No Hamming-owned WebSocket or SSE protocol surface is documented. Voice
+    media rides on LiveKit/WebRTC rooms that Hamming provisions via its REST
+    API, so no AsyncAPI document was authored. The REST surface is captured in
+    openapi/hamming-ai-openapi.yml.

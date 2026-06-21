@@ -1,0 +1,642 @@
+{
+  "item": [
+    {
+      "id": "h-exp-folder",
+      "name": "Experiments",
+      "description": {
+        "content": "Create and run experiments and experiment items.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "h-exp-create",
+          "name": "Create an experiment",
+          "request": {
+            "name": "Create an experiment",
+            "description": {
+              "content": "Creates a new experiment (evaluation run) bound to a dataset.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "experiments"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"datasetId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-exp-update",
+          "name": "Update an experiment",
+          "request": {
+            "name": "Update an experiment",
+            "description": {
+              "content": "Updates an experiment, for example to set its terminal status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "experiments", ":experimentId"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "key": "experimentId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FINISHED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-exp-item-start",
+          "name": "Start an experiment item",
+          "request": {
+            "name": "Start an experiment item",
+            "description": {
+              "content": "Starts an experiment item for a single dataset item.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "experiments", ":experimentId", "items"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "key": "experimentId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"datasetItemId\": \"<string>\",\n  \"input\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-exp-item-end",
+          "name": "End an experiment item",
+          "request": {
+            "name": "End an experiment item",
+            "description": {
+              "content": "Ends an experiment item, recording output, scores, and status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "experiments", ":experimentId", "items", ":itemId"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "key": "experimentId",
+                  "value": "<string>"
+                },
+                {
+                  "key": "itemId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"output\": {},\n  \"scores\": {},\n  \"status\": \"FINISHED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "h-voice-folder",
+      "name": "Voice Testing",
+      "description": {
+        "content": "Run voice agents against datasets and retrieve experiment calls.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "h-voice-run",
+          "name": "Run a voice agent against a dataset",
+          "request": {
+            "name": "Run a voice agent against a dataset",
+            "description": {
+              "content": "Starts a voice experiment by placing simulated outbound calls against a dataset of scenarios.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "voice-agent", ":agentId", "run"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "key": "agentId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataset_id\": \"<string>\",\n  \"to_number\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-voice-calls",
+          "name": "Get voice experiment calls",
+          "request": {
+            "name": "Get voice experiment calls",
+            "description": {
+              "content": "Returns the calls run as part of a voice experiment with their scoring status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "voice-experiment", ":voiceExperimentId", "calls"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "key": "voiceExperimentId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "h-voice-livekit",
+          "name": "Create LiveKit rooms for a test run",
+          "request": {
+            "name": "Create LiveKit rooms for a test run",
+            "description": {
+              "content": "Creates LiveKit rooms for a direct agent-to-agent test run without telephony.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "test-runs", "create-livekit-rooms"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"datasetId\": \"<string>\",\n  \"datasetItemIds\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "h-datasets-folder",
+      "name": "Datasets",
+      "description": {
+        "content": "Manage datasets of test cases and scenarios.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "h-datasets-list",
+          "name": "List datasets",
+          "request": {
+            "name": "List datasets",
+            "description": {
+              "content": "Lists the datasets available to the account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "datasets"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "h-datasets-create",
+          "name": "Create a dataset",
+          "request": {
+            "name": "Create a dataset",
+            "description": {
+              "content": "Creates a new dataset of test cases or scenarios.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "datasets"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-datasets-get",
+          "name": "Load a dataset",
+          "request": {
+            "name": "Load a dataset",
+            "description": {
+              "content": "Loads a dataset together with its items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "datasets", ":datasetId"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "key": "datasetId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "h-scoring-folder",
+      "name": "Scoring",
+      "description": {
+        "content": "Register custom scoring functions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "h-scoring-register",
+          "name": "Register custom scoring functions",
+          "request": {
+            "name": "Register custom scoring functions",
+            "description": {
+              "content": "Registers one or more custom scoring functions used to score experiment results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "scoring", "register-functions"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scoring\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "h-monitoring-folder",
+      "name": "Monitoring",
+      "description": {
+        "content": "Ingest traces, logs, and production call logs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "h-mon-traces",
+          "name": "Ingest traces",
+          "request": {
+            "name": "Ingest traces",
+            "description": {
+              "content": "Ingests a batch of trace events from instrumented sessions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "traces"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"traces\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-mon-logs",
+          "name": "Ingest logs",
+          "request": {
+            "name": "Ingest logs",
+            "description": {
+              "content": "Ingests a batch of log messages from monitored agents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "logs"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"logs\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "h-mon-calllog",
+          "name": "Ingest a production call log",
+          "request": {
+            "name": "Ingest a production call log",
+            "description": {
+              "content": "Forwards a production voice call log (e.g. a provider call-ended payload) for monitoring.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "v2", "call-logs"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "h-prompts-folder",
+      "name": "Prompts",
+      "description": {
+        "content": "List and fetch versioned prompts from the registry.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "h-prompts-list",
+          "name": "List prompts",
+          "request": {
+            "name": "List prompts",
+            "description": {
+              "content": "Lists prompts in the registry, optionally filtered by label.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "prompts"],
+              "host": ["{{baseUrl}}"],
+              "query": [
+                {
+                  "key": "label",
+                  "value": "<string>",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "h-prompts-get",
+          "name": "Get a prompt",
+          "request": {
+            "name": "Get a prompt",
+            "description": {
+              "content": "Fetches a single prompt by slug, optionally pinned to a label or version.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["api", "rest", "prompts", ":slug"],
+              "host": ["{{baseUrl}}"],
+              "query": [
+                {
+                  "key": "label",
+                  "value": "<string>",
+                  "disabled": true
+                },
+                {
+                  "key": "version",
+                  "value": "<string>",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.hamming.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b7c3f1a2-8e4d-4c6a-9f21-3a5d7e9b1c40",
+    "name": "Hamming AI REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents.\n\nAuthentication: Bearer API key created at hamming.ai/settings.",
+      "type": "text/plain"
+    }
+  }
+}

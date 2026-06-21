@@ -1,0 +1,719 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST API
+  description: >-
+    REST API for the Hamming AI testing, evaluation, and observability platform
+    for voice and LLM AI agents. Covers experiments and test runs, voice/call
+    testing, datasets, custom scorers, monitoring/tracing ingestion, and the
+    prompt registry. Endpoints and request shapes are derived from Hamming's
+    public documentation (docs.hamming.ai) and the official open-source SDKs
+    (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API
+    key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+  - url: https://app.hamming.ai/api/rest
+    description: Hamming REST API base URL
+security:
+  - bearerAuth: []
+tags:
+  - name: Experiments
+    description: Create and run experiments and experiment items.
+  - name: Voice Testing
+    description: Run voice agents against datasets and retrieve experiment calls.
+  - name: Datasets
+    description: Manage datasets of test cases and scenarios.
+  - name: Scoring
+    description: Register custom scoring functions.
+  - name: Monitoring
+    description: Ingest traces, logs, and production call logs.
+  - name: Prompts
+    description: List and fetch versioned prompts from the registry.
+paths:
+  /experiments:
+    post:
+      operationId: createExperiment
+      tags:
+        - Experiments
+      summary: Create an experiment
+      description: Creates a new experiment (evaluation run) bound to a dataset.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExperimentRequest'
+      responses:
+        '200':
+          description: The created experiment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experiment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /experiments/{experimentId}:
+    patch:
+      operationId: updateExperiment
+      tags:
+        - Experiments
+      summary: Update an experiment
+      description: Updates an experiment, for example to set its terminal status.
+      parameters:
+        - $ref: '#/components/parameters/ExperimentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExperimentRequest'
+      responses:
+        '200':
+          description: The updated experiment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experiment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /experiments/{experimentId}/items:
+    post:
+      operationId: startExperimentItem
+      tags:
+        - Experiments
+      summary: Start an experiment item
+      description: >-
+        Starts an experiment item for a single dataset item, capturing the
+        input and any associated metadata.
+      parameters:
+        - $ref: '#/components/parameters/ExperimentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartExperimentItemRequest'
+      responses:
+        '200':
+          description: The started experiment item.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /experiments/{experimentId}/items/{itemId}:
+    patch:
+      operationId: endExperimentItem
+      tags:
+        - Experiments
+      summary: End an experiment item
+      description: >-
+        Ends an experiment item, recording the produced output, scores, and
+        status.
+      parameters:
+        - $ref: '#/components/parameters/ExperimentId'
+        - name: itemId
+          in: path
+          required: true
+          description: The experiment item identifier.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndExperimentItemRequest'
+      responses:
+        '200':
+          description: The updated experiment item.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /voice-agent/{agentId}/run:
+    post:
+      operationId: runVoiceAgent
+      tags:
+        - Voice Testing
+      summary: Run a voice agent against a dataset
+      description: >-
+        Starts a voice experiment by placing simulated outbound calls from the
+        specified voice agent against the scenarios in a dataset, returning the
+        identifier of the created voice experiment.
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          description: The voice agent identifier.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunVoiceAgentRequest'
+      responses:
+        '200':
+          description: The created voice experiment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunVoiceAgentResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /voice-experiment/{voiceExperimentId}/calls:
+    get:
+      operationId: getVoiceExperimentCalls
+      tags:
+        - Voice Testing
+      summary: Get voice experiment calls
+      description: >-
+        Returns the array of calls that were run as part of a voice experiment,
+        each including its scoring status.
+      parameters:
+        - name: voiceExperimentId
+          in: path
+          required: true
+          description: The voice experiment identifier.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The calls in the voice experiment.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VoiceCall'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /test-runs/create-livekit-rooms:
+    post:
+      operationId: createLivekitRooms
+      tags:
+        - Voice Testing
+      summary: Create LiveKit rooms for a test run
+      description: >-
+        Creates LiveKit rooms for a direct agent-to-agent test run without
+        traditional telephony, returning an experiment identifier and per-item
+        room connection details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLivekitRoomsRequest'
+      responses:
+        '200':
+          description: The created experiment and room details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLivekitRoomsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /datasets:
+    get:
+      operationId: listDatasets
+      tags:
+        - Datasets
+      summary: List datasets
+      description: Lists the datasets available to the account.
+      responses:
+        '200':
+          description: An array of datasets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dataset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDataset
+      tags:
+        - Datasets
+      summary: Create a dataset
+      description: Creates a new dataset of test cases or scenarios.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDatasetRequest'
+      responses:
+        '200':
+          description: The created dataset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /datasets/{datasetId}:
+    get:
+      operationId: getDataset
+      tags:
+        - Datasets
+      summary: Load a dataset
+      description: Loads a dataset together with its items.
+      parameters:
+        - name: datasetId
+          in: path
+          required: true
+          description: The dataset identifier.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The dataset with its items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetWithItems'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /scoring/register-functions:
+    post:
+      operationId: registerScoringFunctions
+      tags:
+        - Scoring
+      summary: Register custom scoring functions
+      description: >-
+        Registers one or more custom scoring functions used to score
+        experiment results.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterScoringFunctionsRequest'
+      responses:
+        '200':
+          description: The registered scoring configuration.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /traces:
+    post:
+      operationId: ingestTraces
+      tags:
+        - Monitoring
+      summary: Ingest traces
+      description: >-
+        Ingests a batch of trace events (generations, retrievals, spans) from
+        instrumented experiment or monitoring sessions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestTracesRequest'
+      responses:
+        '200':
+          description: Traces accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /logs:
+    post:
+      operationId: ingestLogs
+      tags:
+        - Monitoring
+      summary: Ingest logs
+      description: Ingests a batch of log messages from monitored agents.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestLogsRequest'
+      responses:
+        '200':
+          description: Logs accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v2/call-logs:
+    post:
+      operationId: ingestCallLog
+      tags:
+        - Monitoring
+      summary: Ingest a production call log
+      description: >-
+        Forwards a production voice call log (for example a provider
+        call-ended event payload) to Hamming for monitoring and scoring against
+        real customer calls.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallLogRequest'
+      responses:
+        '200':
+          description: Call log accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /prompts:
+    get:
+      operationId: listPrompts
+      tags:
+        - Prompts
+      summary: List prompts
+      description: Lists prompts in the registry, optionally filtered by label.
+      parameters:
+        - name: label
+          in: query
+          required: false
+          description: Filter prompts by label.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An array of prompts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prompt'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /prompts/{slug}:
+    get:
+      operationId: getPrompt
+      tags:
+        - Prompts
+      summary: Get a prompt
+      description: >-
+        Fetches a single prompt by slug, optionally pinned to a label or
+        version.
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: The prompt slug.
+          schema:
+            type: string
+        - name: label
+          in: query
+          required: false
+          description: Fetch the prompt version associated with this label.
+          schema:
+            type: string
+        - name: version
+          in: query
+          required: false
+          description: Fetch a specific prompt version.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The prompt content.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompt'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        A Hamming API key passed as a Bearer token in the Authorization header.
+        Create a key at hamming.ai/settings.
+  parameters:
+    ExperimentId:
+      name: experimentId
+      in: path
+      required: true
+      description: The experiment identifier.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+    CreateExperimentRequest:
+      type: object
+      required:
+        - name
+        - datasetId
+      properties:
+        name:
+          type: string
+          description: A name for the experiment.
+        datasetId:
+          type: string
+          description: The dataset the experiment runs over.
+        dataset:
+          type: string
+          description: Alias accepted for the dataset identifier.
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Arbitrary metadata to attach to the experiment.
+    UpdateExperimentRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
+    Experiment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        datasetId:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    StartExperimentItemRequest:
+      type: object
+      required:
+        - datasetItemId
+      properties:
+        datasetItemId:
+          type: string
+          description: The dataset item this experiment item evaluates.
+        input:
+          type: object
+          additionalProperties: true
+          description: The input provided to the runner.
+        metadata:
+          type: object
+          additionalProperties: true
+    EndExperimentItemRequest:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+          description: The output produced by the runner.
+        scores:
+          type: object
+          additionalProperties: true
+          description: A map of score name to score value.
+        status:
+          type: string
+          description: Terminal status of the item, e.g. FINISHED or FAILED.
+    ExperimentItem:
+      type: object
+      properties:
+        id:
+          type: string
+        experimentId:
+          type: string
+        datasetItemId:
+          type: string
+        status:
+          type: string
+        output:
+          type: object
+          additionalProperties: true
+        scores:
+          type: object
+          additionalProperties: true
+    RunVoiceAgentRequest:
+      type: object
+      required:
+        - dataset_id
+      properties:
+        dataset_id:
+          type: string
+          description: The dataset of scenarios to run the agent against.
+        to_number:
+          type: string
+          description: The phone number to place the simulated outbound call to.
+    RunVoiceAgentResponse:
+      type: object
+      properties:
+        voice_experiment_id:
+          type: string
+          description: The identifier of the created voice experiment.
+    VoiceCall:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          description: Call status.
+        scoring_status:
+          type: string
+          description: Scoring status of the call.
+        recording_url:
+          type: string
+        transcript:
+          type: string
+    CreateLivekitRoomsRequest:
+      type: object
+      required:
+        - datasetId
+      properties:
+        datasetId:
+          type: string
+          description: The dataset to create rooms for.
+        datasetItemIds:
+          type: array
+          description: Optional subset of dataset item identifiers to create rooms for.
+          items:
+            type: string
+    CreateLivekitRoomsResponse:
+      type: object
+      properties:
+        experimentId:
+          type: string
+        rooms:
+          type: array
+          items:
+            type: object
+            properties:
+              roomName:
+                type: string
+              url:
+                type: string
+              datasetItemId:
+                type: string
+              token:
+                type: string
+    CreateDatasetRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The dataset name.
+        items:
+          type: array
+          description: Optional initial dataset items.
+          items:
+            $ref: '#/components/schemas/DatasetItem'
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    DatasetItem:
+      type: object
+      properties:
+        id:
+          type: string
+        input:
+          type: object
+          additionalProperties: true
+        output:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+    DatasetWithItems:
+      allOf:
+        - $ref: '#/components/schemas/Dataset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/DatasetItem'
+    RegisterScoringFunctionsRequest:
+      type: object
+      required:
+        - scoring
+      properties:
+        scoring:
+          type: array
+          description: The custom scoring function definitions to register.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+    IngestTracesRequest:
+      type: object
+      required:
+        - traces
+      properties:
+        traces:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    IngestLogsRequest:
+      type: object
+      required:
+        - logs
+      properties:
+        logs:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    CallLogRequest:
+      type: object
+      description: >-
+        A production call log payload. Hamming accepts provider call-ended event
+        payloads (for example from Retell) for monitoring.
+      additionalProperties: true
+    Prompt:
+      type: object
+      properties:
+        slug:
+          type: string
+        label:
+          type: string
+        version:
+          type: string
+        content:
+          type: string
+          description: The prompt content.

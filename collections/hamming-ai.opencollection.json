@@ -1,0 +1,284 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Experiments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an experiment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/experiments",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"datasetId\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Creates a new experiment (evaluation run) bound to a dataset."
+        },
+        {
+          "info": {
+            "name": "Update an experiment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.hamming.ai/api/rest/experiments/{experimentId}",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"status\": \"FINISHED\"\n}"
+            }
+          },
+          "docs": "Updates an experiment, for example to set its terminal status."
+        },
+        {
+          "info": {
+            "name": "Start an experiment item",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/experiments/{experimentId}/items",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"datasetItemId\": \"<string>\",\n  \"input\": {}\n}"
+            }
+          },
+          "docs": "Starts an experiment item for a single dataset item."
+        },
+        {
+          "info": {
+            "name": "End an experiment item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.hamming.ai/api/rest/experiments/{experimentId}/items/{itemId}",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"output\": {},\n  \"scores\": {},\n  \"status\": \"FINISHED\"\n}"
+            }
+          },
+          "docs": "Ends an experiment item, recording output, scores, and status."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Voice Testing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run a voice agent against a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/voice-agent/{agentId}/run",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"dataset_id\": \"<string>\",\n  \"to_number\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Starts a voice experiment by placing simulated outbound calls against a dataset of scenarios."
+        },
+        {
+          "info": {
+            "name": "Get voice experiment calls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/voice-experiment/{voiceExperimentId}/calls"
+          },
+          "docs": "Returns the calls run as part of a voice experiment with their scoring status."
+        },
+        {
+          "info": {
+            "name": "Create LiveKit rooms for a test run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/test-runs/create-livekit-rooms",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"datasetId\": \"<string>\",\n  \"datasetItemIds\": []\n}"
+            }
+          },
+          "docs": "Creates LiveKit rooms for a direct agent-to-agent test run without telephony."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Datasets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/datasets"
+          },
+          "docs": "Lists the datasets available to the account."
+        },
+        {
+          "info": {
+            "name": "Create a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/datasets",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Creates a new dataset of test cases or scenarios."
+        },
+        {
+          "info": {
+            "name": "Load a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/datasets/{datasetId}"
+          },
+          "docs": "Loads a dataset together with its items."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Scoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register custom scoring functions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/scoring/register-functions",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"scoring\": []\n}"
+            }
+          },
+          "docs": "Registers one or more custom scoring functions used to score experiment results."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ingest traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/traces",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"traces\": []\n}"
+            }
+          },
+          "docs": "Ingests a batch of trace events from instrumented sessions."
+        },
+        {
+          "info": {
+            "name": "Ingest logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/logs",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"logs\": []\n}"
+            }
+          },
+          "docs": "Ingests a batch of log messages from monitored agents."
+        },
+        {
+          "info": {
+            "name": "Ingest a production call log",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/v2/call-logs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Forwards a production voice call log (e.g. a provider call-ended payload) for monitoring."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Prompts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/prompts"
+          },
+          "docs": "Lists prompts in the registry, optionally filtered by label."
+        },
+        {
+          "info": {
+            "name": "Get a prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/prompts/{slug}"
+          },
+          "docs": "Fetches a single prompt by slug, optionally pinned to a label or version."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
