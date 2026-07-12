@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/hamming-ai-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: A Hamming API key passed as a Bearer token in the Authorization header. Create
+    a key at hamming.ai/settings.
+  sources:
+  - openapi/hamming-ai-openapi.yml

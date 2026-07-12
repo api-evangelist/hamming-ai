@@ -137,6 +137,10 @@ apis:
   description: List and fetch versioned, labeled prompts from the Hamming prompt
     registry to manage and optimize prompts used by agents under test.
 common:
+- type: DomainSecurity
+  url: security/hamming-ai-domain-security.yml
+- type: Authentication
+  url: authentication/hamming-ai-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/HammingHQ
 - type: LinkedIn
