@@ -1,0 +1,146 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST Datasets API
+  description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+- url: https://app.hamming.ai/api/rest
+  description: Hamming REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Datasets
+  description: Manage datasets of test cases and scenarios.
+paths:
+  /datasets:
+    get:
+      operationId: listDatasets
+      tags:
+      - Datasets
+      summary: List datasets
+      description: Lists the datasets available to the account.
+      responses:
+        '200':
+          description: An array of datasets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dataset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDataset
+      tags:
+      - Datasets
+      summary: Create a dataset
+      description: Creates a new dataset of test cases or scenarios.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDatasetRequest'
+      responses:
+        '200':
+          description: The created dataset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /datasets/{datasetId}:
+    get:
+      operationId: getDataset
+      tags:
+      - Datasets
+      summary: Load a dataset
+      description: Loads a dataset together with its items.
+      parameters:
+      - name: datasetId
+        in: path
+        required: true
+        description: The dataset identifier.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The dataset with its items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetWithItems'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    DatasetWithItems:
+      allOf:
+      - $ref: '#/components/schemas/Dataset'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/DatasetItem'
+    DatasetItem:
+      type: object
+      properties:
+        id:
+          type: string
+        input:
+          type: object
+          additionalProperties: true
+        output:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+    CreateDatasetRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The dataset name.
+        items:
+          type: array
+          description: Optional initial dataset items.
+          items:
+            $ref: '#/components/schemas/DatasetItem'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: A Hamming API key passed as a Bearer token in the Authorization header. Create a key at hamming.ai/settings.

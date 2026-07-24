@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST Datasets Scoring API
+  description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+- url: https://app.hamming.ai/api/rest
+  description: Hamming REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Scoring
+  description: Register custom scoring functions.
+paths:
+  /scoring/register-functions:
+    post:
+      operationId: registerScoringFunctions
+      tags:
+      - Scoring
+      summary: Register custom scoring functions
+      description: Registers one or more custom scoring functions used to score experiment results.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterScoringFunctionsRequest'
+      responses:
+        '200':
+          description: The registered scoring configuration.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    RegisterScoringFunctionsRequest:
+      type: object
+      required:
+      - scoring
+      properties:
+        scoring:
+          type: array
+          description: The custom scoring function definitions to register.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: A Hamming API key passed as a Bearer token in the Authorization header. Create a key at hamming.ai/settings.

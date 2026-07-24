@@ -1,0 +1,231 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST Datasets Experiments API
+  description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+- url: https://app.hamming.ai/api/rest
+  description: Hamming REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Experiments
+  description: Create and run experiments and experiment items.
+paths:
+  /experiments:
+    post:
+      operationId: createExperiment
+      tags:
+      - Experiments
+      summary: Create an experiment
+      description: Creates a new experiment (evaluation run) bound to a dataset.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExperimentRequest'
+      responses:
+        '200':
+          description: The created experiment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experiment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /experiments/{experimentId}:
+    patch:
+      operationId: updateExperiment
+      tags:
+      - Experiments
+      summary: Update an experiment
+      description: Updates an experiment, for example to set its terminal status.
+      parameters:
+      - $ref: '#/components/parameters/ExperimentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExperimentRequest'
+      responses:
+        '200':
+          description: The updated experiment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experiment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /experiments/{experimentId}/items:
+    post:
+      operationId: startExperimentItem
+      tags:
+      - Experiments
+      summary: Start an experiment item
+      description: Starts an experiment item for a single dataset item, capturing the input and any associated metadata.
+      parameters:
+      - $ref: '#/components/parameters/ExperimentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartExperimentItemRequest'
+      responses:
+        '200':
+          description: The started experiment item.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /experiments/{experimentId}/items/{itemId}:
+    patch:
+      operationId: endExperimentItem
+      tags:
+      - Experiments
+      summary: End an experiment item
+      description: Ends an experiment item, recording the produced output, scores, and status.
+      parameters:
+      - $ref: '#/components/parameters/ExperimentId'
+      - name: itemId
+        in: path
+        required: true
+        description: The experiment item identifier.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndExperimentItemRequest'
+      responses:
+        '200':
+          description: The updated experiment item.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    CreateExperimentRequest:
+      type: object
+      required:
+      - name
+      - datasetId
+      properties:
+        name:
+          type: string
+          description: A name for the experiment.
+        datasetId:
+          type: string
+          description: The dataset the experiment runs over.
+        dataset:
+          type: string
+          description: Alias accepted for the dataset identifier.
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Arbitrary metadata to attach to the experiment.
+    EndExperimentItemRequest:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+          description: The output produced by the runner.
+        scores:
+          type: object
+          additionalProperties: true
+          description: A map of score name to score value.
+        status:
+          type: string
+          description: Terminal status of the item, e.g. FINISHED or FAILED.
+    Experiment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        datasetId:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    ExperimentItem:
+      type: object
+      properties:
+        id:
+          type: string
+        experimentId:
+          type: string
+        datasetItemId:
+          type: string
+        status:
+          type: string
+        output:
+          type: object
+          additionalProperties: true
+        scores:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+    UpdateExperimentRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
+    StartExperimentItemRequest:
+      type: object
+      required:
+      - datasetItemId
+      properties:
+        datasetItemId:
+          type: string
+          description: The dataset item this experiment item evaluates.
+        input:
+          type: object
+          additionalProperties: true
+          description: The input provided to the runner.
+        metadata:
+          type: object
+          additionalProperties: true
+  parameters:
+    ExperimentId:
+      name: experimentId
+      in: path
+      required: true
+      description: The experiment identifier.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: A Hamming API key passed as a Bearer token in the Authorization header. Create a key at hamming.ai/settings.

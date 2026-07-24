@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST Datasets Monitoring API
+  description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+- url: https://app.hamming.ai/api/rest
+  description: Hamming REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Monitoring
+  description: Ingest traces, logs, and production call logs.
+paths:
+  /traces:
+    post:
+      operationId: ingestTraces
+      tags:
+      - Monitoring
+      summary: Ingest traces
+      description: Ingests a batch of trace events (generations, retrievals, spans) from instrumented experiment or monitoring sessions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestTracesRequest'
+      responses:
+        '200':
+          description: Traces accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /logs:
+    post:
+      operationId: ingestLogs
+      tags:
+      - Monitoring
+      summary: Ingest logs
+      description: Ingests a batch of log messages from monitored agents.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestLogsRequest'
+      responses:
+        '200':
+          description: Logs accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v2/call-logs:
+    post:
+      operationId: ingestCallLog
+      tags:
+      - Monitoring
+      summary: Ingest a production call log
+      description: Forwards a production voice call log (for example a provider call-ended event payload) to Hamming for monitoring and scoring against real customer calls.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallLogRequest'
+      responses:
+        '200':
+          description: Call log accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    IngestTracesRequest:
+      type: object
+      required:
+      - traces
+      properties:
+        traces:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    CallLogRequest:
+      type: object
+      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
+      additionalProperties: true
+    IngestLogsRequest:
+      type: object
+      required:
+      - logs
+      properties:
+        logs:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: A Hamming API key passed as a Bearer token in the Authorization header. Create a key at hamming.ai/settings.

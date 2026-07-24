@@ -1,0 +1,177 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST Datasets Voice Testing API
+  description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+- url: https://app.hamming.ai/api/rest
+  description: Hamming REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Voice Testing
+  description: Run voice agents against datasets and retrieve experiment calls.
+paths:
+  /voice-agent/{agentId}/run:
+    post:
+      operationId: runVoiceAgent
+      tags:
+      - Voice Testing
+      summary: Run a voice agent against a dataset
+      description: Starts a voice experiment by placing simulated outbound calls from the specified voice agent against the scenarios in a dataset, returning the identifier of the created voice experiment.
+      parameters:
+      - name: agentId
+        in: path
+        required: true
+        description: The voice agent identifier.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunVoiceAgentRequest'
+      responses:
+        '200':
+          description: The created voice experiment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunVoiceAgentResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /voice-experiment/{voiceExperimentId}/calls:
+    get:
+      operationId: getVoiceExperimentCalls
+      tags:
+      - Voice Testing
+      summary: Get voice experiment calls
+      description: Returns the array of calls that were run as part of a voice experiment, each including its scoring status.
+      parameters:
+      - name: voiceExperimentId
+        in: path
+        required: true
+        description: The voice experiment identifier.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The calls in the voice experiment.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VoiceCall'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /test-runs/create-livekit-rooms:
+    post:
+      operationId: createLivekitRooms
+      tags:
+      - Voice Testing
+      summary: Create LiveKit rooms for a test run
+      description: Creates LiveKit rooms for a direct agent-to-agent test run without traditional telephony, returning an experiment identifier and per-item room connection details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLivekitRoomsRequest'
+      responses:
+        '200':
+          description: The created experiment and room details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLivekitRoomsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    RunVoiceAgentRequest:
+      type: object
+      required:
+      - dataset_id
+      properties:
+        dataset_id:
+          type: string
+          description: The dataset of scenarios to run the agent against.
+        to_number:
+          type: string
+          description: The phone number to place the simulated outbound call to.
+    CreateLivekitRoomsRequest:
+      type: object
+      required:
+      - datasetId
+      properties:
+        datasetId:
+          type: string
+          description: The dataset to create rooms for.
+        datasetItemIds:
+          type: array
+          description: Optional subset of dataset item identifiers to create rooms for.
+          items:
+            type: string
+    CreateLivekitRoomsResponse:
+      type: object
+      properties:
+        experimentId:
+          type: string
+        rooms:
+          type: array
+          items:
+            type: object
+            properties:
+              roomName:
+                type: string
+              url:
+                type: string
+              datasetItemId:
+                type: string
+              token:
+                type: string
+    RunVoiceAgentResponse:
+      type: object
+      properties:
+        voice_experiment_id:
+          type: string
+          description: The identifier of the created voice experiment.
+    VoiceCall:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          description: Call status.
+        scoring_status:
+          type: string
+          description: Scoring status of the call.
+        recording_url:
+          type: string
+        transcript:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: A Hamming API key passed as a Bearer token in the Authorization header. Create a key at hamming.ai/settings.

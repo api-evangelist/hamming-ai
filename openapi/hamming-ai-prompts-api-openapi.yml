@@ -1,0 +1,110 @@
+openapi: 3.0.1
+info:
+  title: Hamming AI REST Datasets Prompts API
+  description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
+  termsOfService: https://hamming.ai/terms
+  contact:
+    name: Hamming AI
+    url: https://hamming.ai
+  version: '1.0'
+servers:
+- url: https://app.hamming.ai/api/rest
+  description: Hamming REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Prompts
+  description: List and fetch versioned prompts from the registry.
+paths:
+  /prompts:
+    get:
+      operationId: listPrompts
+      tags:
+      - Prompts
+      summary: List prompts
+      description: Lists prompts in the registry, optionally filtered by label.
+      parameters:
+      - name: label
+        in: query
+        required: false
+        description: Filter prompts by label.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: An array of prompts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prompt'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /prompts/{slug}:
+    get:
+      operationId: getPrompt
+      tags:
+      - Prompts
+      summary: Get a prompt
+      description: Fetches a single prompt by slug, optionally pinned to a label or version.
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        description: The prompt slug.
+        schema:
+          type: string
+      - name: label
+        in: query
+        required: false
+        description: Fetch the prompt version associated with this label.
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: false
+        description: Fetch a specific prompt version.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The prompt content.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompt'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Prompt:
+      type: object
+      properties:
+        slug:
+          type: string
+        label:
+          type: string
+        version:
+          type: string
+        content:
+          type: string
+          description: The prompt content.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: A Hamming API key passed as a Bearer token in the Authorization header. Create a key at hamming.ai/settings.
