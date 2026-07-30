@@ -7,7 +7,20 @@ description: Hamming AI is a testing, evaluation, and observability platform for
   your agents, manages datasets, registers custom scorers and evaluations, and ingests
   traces, logs, and production call logs for monitoring. A prompt optimizer and
   registry round out the platform.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hamming-ai.png
 tags:
 - AI
 - Voice Agents
@@ -19,123 +32,174 @@ created: '2026-06-21'
 modified: '2026-06-21'
 specificationVersion: '0.19'
 apis:
-- aid: hamming-ai:experiments-test-runs
-  name: Hamming Experiments & Test Runs API
-  tags:
-  - Experiments
-  - Test Runs
-  - Evaluation
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: hamming-ai:hamming-ai-datasets-api
+  name: Hamming AI Datasets API
+  description: Manage datasets of test cases and scenarios.
   humanURL: https://docs.hamming.ai/guides/evaluations
   baseURL: https://app.hamming.ai/api/rest
-  properties:
-  - url: https://docs.hamming.ai/guides/evaluations
-    type: Documentation
-  - url: https://docs.hamming.ai/guides/voice-agent-api
-    type: APIReference
-  - url: openapi/hamming-ai-openapi.yml
-    type: OpenAPI
-  - url: collections/hamming-ai.postman_collection.json
-    type: Postman
-  description: Create experiments, start and end experiment items, and update experiment
-    status to run repeatable evaluation runs against agent and LLM outputs over a
-    dataset.
-- aid: hamming-ai:voice-call-testing
-  name: Hamming Voice & Call Testing API
-  tags:
-  - Voice Agents
-  - Call Testing
-  - LiveKit
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.hamming.ai/guides/voice-agent-api
-  baseURL: https://app.hamming.ai/api/rest
-  properties:
-  - url: https://docs.hamming.ai/guides/voice-agent-api
-    type: Documentation
-  - url: https://docs.hamming.ai/guides/voice-agent-testing
-    type: APIReference
-  - url: openapi/hamming-ai-openapi.yml
-    type: OpenAPI
-  - url: collections/hamming-ai.postman_collection.json
-    type: Postman
-  description: Run a voice agent against a dataset of scenarios by placing simulated
-    outbound calls, create LiveKit rooms for direct agent-to-agent test runs, and
-    retrieve the calls produced by a voice experiment with their scoring status.
-- aid: hamming-ai:datasets
-  name: Hamming Datasets API
   tags:
   - Datasets
-  - Test Cases
-  - Scenarios
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.hamming.ai/guides/voice-agent-testing
-  baseURL: https://app.hamming.ai/api/rest
   properties:
-  - url: https://docs.hamming.ai/guides/voice-agent-testing
-    type: Documentation
-  - url: openapi/hamming-ai-openapi.yml
-    type: OpenAPI
-  - url: collections/hamming-ai.postman_collection.json
-    type: Postman
-  description: List, create, and load datasets of test cases and conversation scenarios
-    used as inputs for experiments and voice test runs.
-- aid: hamming-ai:scorers-evaluations
-  name: Hamming Scorers & Evaluations API
-  tags:
-  - Scorers
-  - Evaluations
-  - Metrics
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.hamming.ai/guides/custom-scores
-  baseURL: https://app.hamming.ai/api/rest
-  properties:
-  - url: https://docs.hamming.ai/guides/custom-scores
-    type: Documentation
-  - url: openapi/hamming-ai-openapi.yml
-    type: OpenAPI
-  - url: collections/hamming-ai.postman_collection.json
-    type: Postman
-  description: Register custom scoring functions that compute scores over experiment
-    results, complementing Hamming's library of built-in evaluation metrics.
-- aid: hamming-ai:monitoring-tracing
-  name: Hamming Monitoring & Tracing API
-  tags:
-  - Monitoring
-  - Tracing
-  - Observability
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.hamming.ai/guides/monitoring
-  baseURL: https://app.hamming.ai/api/rest
-  properties:
-  - url: https://docs.hamming.ai/guides/monitoring
-    type: Documentation
-  - url: https://docs.hamming.ai/guides/voice-agent-monitoring
-    type: APIReference
-  - url: openapi/hamming-ai-openapi.yml
-    type: OpenAPI
-  - url: collections/hamming-ai.postman_collection.json
-    type: Postman
-  description: Ingest traces and logs from instrumented agents and forward production
-    voice call logs (e.g. provider call-ended payloads) for continuous monitoring
-    of agent health and reliability in production.
-- aid: hamming-ai:prompts
-  name: Hamming Prompt Optimizer & Registry API
-  tags:
-  - Prompts
-  - Optimization
-  - Registry
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  - type: OpenAPI
+    url: openapi/hamming-ai-datasets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/evaluations
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: Postman
+    url: collections/hamming-ai.postman_collection.json
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/custom-scores
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/monitoring
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-monitoring
+- aid: hamming-ai:hamming-ai-experiments-api
+  name: Hamming AI Experiments API
+  description: Create and run experiments and experiment items.
   humanURL: https://docs.hamming.ai/guides/evaluations
   baseURL: https://app.hamming.ai/api/rest
+  tags:
+  - Experiments
   properties:
-  - url: https://docs.hamming.ai/guides/evaluations
-    type: Documentation
-  - url: openapi/hamming-ai-openapi.yml
-    type: OpenAPI
-  - url: collections/hamming-ai.postman_collection.json
-    type: Postman
-  description: List and fetch versioned, labeled prompts from the Hamming prompt
-    registry to manage and optimize prompts used by agents under test.
+  - type: OpenAPI
+    url: openapi/hamming-ai-experiments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/evaluations
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: Postman
+    url: collections/hamming-ai.postman_collection.json
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/custom-scores
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/monitoring
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-monitoring
+- aid: hamming-ai:hamming-ai-monitoring-api
+  name: Hamming AI Monitoring API
+  description: Ingest traces, logs, and production call logs.
+  humanURL: https://docs.hamming.ai/guides/evaluations
+  baseURL: https://app.hamming.ai/api/rest
+  tags:
+  - Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/hamming-ai-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/evaluations
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: Postman
+    url: collections/hamming-ai.postman_collection.json
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/custom-scores
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/monitoring
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-monitoring
+- aid: hamming-ai:hamming-ai-prompts-api
+  name: Hamming AI Prompts API
+  description: List and fetch versioned prompts from the registry.
+  humanURL: https://docs.hamming.ai/guides/evaluations
+  baseURL: https://app.hamming.ai/api/rest
+  tags:
+  - Prompts
+  properties:
+  - type: OpenAPI
+    url: openapi/hamming-ai-prompts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/evaluations
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: Postman
+    url: collections/hamming-ai.postman_collection.json
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/custom-scores
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/monitoring
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-monitoring
+- aid: hamming-ai:hamming-ai-scoring-api
+  name: Hamming AI Scoring API
+  description: Register custom scoring functions.
+  humanURL: https://docs.hamming.ai/guides/evaluations
+  baseURL: https://app.hamming.ai/api/rest
+  tags:
+  - Scoring
+  properties:
+  - type: OpenAPI
+    url: openapi/hamming-ai-scoring-api-openapi.yml
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/evaluations
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: Postman
+    url: collections/hamming-ai.postman_collection.json
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/custom-scores
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/monitoring
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-monitoring
+- aid: hamming-ai:hamming-ai-voice-testing-api
+  name: Hamming AI Voice Testing API
+  description: Run voice agents against datasets and retrieve experiment calls.
+  humanURL: https://docs.hamming.ai/guides/evaluations
+  baseURL: https://app.hamming.ai/api/rest
+  tags:
+  - Voice Testing
+  properties:
+  - type: OpenAPI
+    url: openapi/hamming-ai-voice-testing-api-openapi.yml
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/evaluations
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: Postman
+    url: collections/hamming-ai.postman_collection.json
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-api
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/voice-agent-testing
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/custom-scores
+  - type: Documentation
+    url: https://docs.hamming.ai/guides/monitoring
+  - type: APIReference
+    url: https://docs.hamming.ai/guides/voice-agent-monitoring
 common:
 - type: AgenticAccess
   url: agentic-access/hamming-ai-agentic-access.yml
