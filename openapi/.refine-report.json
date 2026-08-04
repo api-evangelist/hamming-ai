@@ -1,0 +1,24 @@
+{
+  "provider": "hamming-ai",
+  "sources": [
+    "hamming-ai-datasets-api-openapi.yml",
+    "hamming-ai-experiments-api-openapi.yml",
+    "hamming-ai-monitoring-api-openapi.yml",
+    "hamming-ai-prompts-api-openapi.yml",
+    "hamming-ai-scoring-api-openapi.yml",
+    "hamming-ai-voice-testing-api-openapi.yml"
+  ],
+  "outputs": [
+    "hamming-ai-datasets-api-openapi.yml",
+    "hamming-ai-experiments-api-openapi.yml",
+    "hamming-ai-monitoring-api-openapi.yml",
+    "hamming-ai-prompts-api-openapi.yml",
+    "hamming-ai-scoring-api-openapi.yml",
+    "hamming-ai-voice-testing-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
