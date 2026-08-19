@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST Datasets Monitoring API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ingest traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/traces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Ingests a batch of trace events (generations, retrievals, spans) from instrumented experiment or monitoring sessions."
+        },
+        {
+          "info": {
+            "name": "Ingest logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/logs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Ingests a batch of log messages from monitored agents."
+        },
+        {
+          "info": {
+            "name": "Ingest a production call log",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/v2/call-logs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Forwards a production voice call log (for example a provider call-ended event payload) to Hamming for monitoring and scoring against real customer calls."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

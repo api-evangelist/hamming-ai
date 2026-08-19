@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST Datasets Experiments API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Experiments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an experiment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/experiments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new experiment (evaluation run) bound to a dataset."
+        },
+        {
+          "info": {
+            "name": "Update an experiment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.hamming.ai/api/rest/experiments/:experimentId",
+            "params": [
+              {
+                "name": "experimentId",
+                "value": "",
+                "type": "path",
+                "description": "The experiment identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an experiment, for example to set its terminal status."
+        },
+        {
+          "info": {
+            "name": "Start an experiment item",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/experiments/:experimentId/items",
+            "params": [
+              {
+                "name": "experimentId",
+                "value": "",
+                "type": "path",
+                "description": "The experiment identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts an experiment item for a single dataset item, capturing the input and any associated metadata."
+        },
+        {
+          "info": {
+            "name": "End an experiment item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.hamming.ai/api/rest/experiments/:experimentId/items/:itemId",
+            "params": [
+              {
+                "name": "experimentId",
+                "value": "",
+                "type": "path",
+                "description": "The experiment identifier."
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path",
+                "description": "The experiment item identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Ends an experiment item, recording the produced output, scores, and status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

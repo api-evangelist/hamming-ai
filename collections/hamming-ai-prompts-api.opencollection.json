@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST Datasets Prompts API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prompts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/prompts",
+            "params": [
+              {
+                "name": "label",
+                "value": "",
+                "type": "query",
+                "description": "Filter prompts by label."
+              }
+            ]
+          },
+          "docs": "Lists prompts in the registry, optionally filtered by label."
+        },
+        {
+          "info": {
+            "name": "Get a prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/prompts/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "The prompt slug."
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "query",
+                "description": "Fetch the prompt version associated with this label."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Fetch a specific prompt version."
+              }
+            ]
+          },
+          "docs": "Fetches a single prompt by slug, optionally pinned to a label or version."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

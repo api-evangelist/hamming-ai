@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST Datasets Scoring API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register custom scoring functions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/scoring/register-functions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers one or more custom scoring functions used to score experiment results."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

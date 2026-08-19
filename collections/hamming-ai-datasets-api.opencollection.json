@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST Datasets API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datasets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/datasets"
+          },
+          "docs": "Lists the datasets available to the account."
+        },
+        {
+          "info": {
+            "name": "Create a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/datasets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new dataset of test cases or scenarios."
+        },
+        {
+          "info": {
+            "name": "Load a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/datasets/:datasetId",
+            "params": [
+              {
+                "name": "datasetId",
+                "value": "",
+                "type": "path",
+                "description": "The dataset identifier."
+              }
+            ]
+          },
+          "docs": "Loads a dataset together with its items."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Hamming AI REST Datasets Voice Testing API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voice Testing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run a voice agent against a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/voice-agent/:agentId/run",
+            "params": [
+              {
+                "name": "agentId",
+                "value": "",
+                "type": "path",
+                "description": "The voice agent identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts a voice experiment by placing simulated outbound calls from the specified voice agent against the scenarios in a dataset, returning the identifier of the created voice experiment."
+        },
+        {
+          "info": {
+            "name": "Get voice experiment calls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.hamming.ai/api/rest/voice-experiment/:voiceExperimentId/calls",
+            "params": [
+              {
+                "name": "voiceExperimentId",
+                "value": "",
+                "type": "path",
+                "description": "The voice experiment identifier."
+              }
+            ]
+          },
+          "docs": "Returns the array of calls that were run as part of a voice experiment, each including its scoring status."
+        },
+        {
+          "info": {
+            "name": "Create LiveKit rooms for a test run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.hamming.ai/api/rest/test-runs/create-livekit-rooms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates LiveKit rooms for a direct agent-to-agent test run without traditional telephony, returning an experiment identifier and per-item room connection details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
