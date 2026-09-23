@@ -1,12 +1,7 @@
 {
   "provider": "hamming-ai",
   "sources": [
-    "hamming-ai-datasets-api-openapi.yml",
-    "hamming-ai-experiments-api-openapi.yml",
-    "hamming-ai-monitoring-api-openapi.yml",
-    "hamming-ai-prompts-api-openapi.yml",
-    "hamming-ai-scoring-api-openapi.yml",
-    "hamming-ai-voice-testing-api-openapi.yml"
+    "_original/hamming-ai-openapi.yml"
   ],
   "outputs": [
     "hamming-ai-datasets-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "hamming-ai-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "hamming-ai-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hamming-ai-experiments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hamming-ai-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hamming-ai-prompts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hamming-ai-scoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hamming-ai-voice-testing-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

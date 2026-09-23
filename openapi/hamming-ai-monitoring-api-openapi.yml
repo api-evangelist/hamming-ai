@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Hamming AI REST Datasets Monitoring API
+  title: Hamming AI REST Monitoring API
   description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
   termsOfService: https://hamming.ai/terms
   contact:
@@ -94,10 +94,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    CallLogRequest:
-      type: object
-      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
-      additionalProperties: true
     IngestLogsRequest:
       type: object
       required:
@@ -108,6 +104,10 @@ components:
           items:
             type: object
             additionalProperties: true
+    CallLogRequest:
+      type: object
+      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
+      additionalProperties: true
     Error:
       type: object
       properties:

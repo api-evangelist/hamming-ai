@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Hamming AI REST Datasets API
   description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
@@ -80,16 +80,19 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Dataset:
+    CreateDatasetRequest:
       type: object
+      required:
+      - name
       properties:
-        id:
-          type: string
         name:
           type: string
-        createdAt:
-          type: string
-          format: date-time
+          description: The dataset name.
+        items:
+          type: array
+          description: Optional initial dataset items.
+          items:
+            $ref: '#/components/schemas/DatasetItem'
     DatasetWithItems:
       allOf:
       - $ref: '#/components/schemas/Dataset'
@@ -113,19 +116,16 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    CreateDatasetRequest:
+    Dataset:
       type: object
-      required:
-      - name
       properties:
+        id:
+          type: string
         name:
           type: string
-          description: The dataset name.
-        items:
-          type: array
-          description: Optional initial dataset items.
-          items:
-            $ref: '#/components/schemas/DatasetItem'
+        createdAt:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:

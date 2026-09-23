@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Hamming AI REST Datasets Voice Testing API
+  title: Hamming AI REST Voice Testing API
   description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
   termsOfService: https://hamming.ai/terms
   contact:
@@ -94,17 +94,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    RunVoiceAgentRequest:
+    RunVoiceAgentResponse:
       type: object
-      required:
-      - dataset_id
       properties:
-        dataset_id:
+        voice_experiment_id:
           type: string
-          description: The dataset of scenarios to run the agent against.
-        to_number:
-          type: string
-          description: The phone number to place the simulated outbound call to.
+          description: The identifier of the created voice experiment.
     CreateLivekitRoomsRequest:
       type: object
       required:
@@ -118,6 +113,21 @@ components:
           description: Optional subset of dataset item identifiers to create rooms for.
           items:
             type: string
+    VoiceCall:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          description: Call status.
+        scoring_status:
+          type: string
+          description: Scoring status of the call.
+        recording_url:
+          type: string
+        transcript:
+          type: string
     CreateLivekitRoomsResponse:
       type: object
       properties:
@@ -136,27 +146,17 @@ components:
                 type: string
               token:
                 type: string
-    RunVoiceAgentResponse:
+    RunVoiceAgentRequest:
       type: object
+      required:
+      - dataset_id
       properties:
-        voice_experiment_id:
+        dataset_id:
           type: string
-          description: The identifier of the created voice experiment.
-    VoiceCall:
-      type: object
-      properties:
-        id:
+          description: The dataset of scenarios to run the agent against.
+        to_number:
           type: string
-        status:
-          type: string
-          description: Call status.
-        scoring_status:
-          type: string
-          description: Scoring status of the call.
-        recording_url:
-          type: string
-        transcript:
-          type: string
+          description: The phone number to place the simulated outbound call to.
     Error:
       type: object
       properties:

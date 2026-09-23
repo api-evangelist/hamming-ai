@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Hamming AI REST Datasets Experiments API
+  title: Hamming AI REST Experiments API
   description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
   termsOfService: https://hamming.ai/terms
   contact:
@@ -118,6 +118,58 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    UpdateExperimentRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
+    Experiment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        datasetId:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    StartExperimentItemRequest:
+      type: object
+      required:
+      - datasetItemId
+      properties:
+        datasetItemId:
+          type: string
+          description: The dataset item this experiment item evaluates.
+        input:
+          type: object
+          additionalProperties: true
+          description: The input provided to the runner.
+        metadata:
+          type: object
+          additionalProperties: true
+    ExperimentItem:
+      type: object
+      properties:
+        id:
+          type: string
+        experimentId:
+          type: string
+        datasetItemId:
+          type: string
+        status:
+          type: string
+        output:
+          type: object
+          additionalProperties: true
+        scores:
+          type: object
+          additionalProperties: true
     CreateExperimentRequest:
       type: object
       required:
@@ -151,64 +203,12 @@ components:
         status:
           type: string
           description: Terminal status of the item, e.g. FINISHED or FAILED.
-    Experiment:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        datasetId:
-          type: string
-        status:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-    ExperimentItem:
-      type: object
-      properties:
-        id:
-          type: string
-        experimentId:
-          type: string
-        datasetItemId:
-          type: string
-        status:
-          type: string
-        output:
-          type: object
-          additionalProperties: true
-        scores:
-          type: object
-          additionalProperties: true
     Error:
       type: object
       properties:
         error:
           type: string
           description: A human-readable error message.
-    UpdateExperimentRequest:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
-    StartExperimentItemRequest:
-      type: object
-      required:
-      - datasetItemId
-      properties:
-        datasetItemId:
-          type: string
-          description: The dataset item this experiment item evaluates.
-        input:
-          type: object
-          additionalProperties: true
-          description: The input provided to the runner.
-        metadata:
-          type: object
-          additionalProperties: true
   parameters:
     ExperimentId:
       name: experimentId

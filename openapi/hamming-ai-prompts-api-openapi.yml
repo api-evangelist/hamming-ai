@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Hamming AI REST Datasets Prompts API
+  title: Hamming AI REST Prompts API
   description: REST API for the Hamming AI testing, evaluation, and observability platform for voice and LLM AI agents. Covers experiments and test runs, voice/call testing, datasets, custom scorers, monitoring/tracing ingestion, and the prompt registry. Endpoints and request shapes are derived from Hamming's public documentation (docs.hamming.ai) and the official open-source SDKs (github.com/HammingHQ/evals-py, evals-ts). Authentication uses a Bearer API key created at hamming.ai/settings.
   termsOfService: https://hamming.ai/terms
   contact:
@@ -77,13 +77,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Prompt:
       type: object
@@ -103,6 +96,13 @@ components:
         error:
           type: string
           description: A human-readable error message.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
