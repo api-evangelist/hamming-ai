@@ -100,34 +100,6 @@ components:
         voice_experiment_id:
           type: string
           description: The identifier of the created voice experiment.
-    CreateLivekitRoomsRequest:
-      type: object
-      required:
-      - datasetId
-      properties:
-        datasetId:
-          type: string
-          description: The dataset to create rooms for.
-        datasetItemIds:
-          type: array
-          description: Optional subset of dataset item identifiers to create rooms for.
-          items:
-            type: string
-    VoiceCall:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          description: Call status.
-        scoring_status:
-          type: string
-          description: Scoring status of the call.
-        recording_url:
-          type: string
-        transcript:
-          type: string
     CreateLivekitRoomsResponse:
       type: object
       properties:
@@ -146,6 +118,40 @@ components:
                 type: string
               token:
                 type: string
+    CreateLivekitRoomsRequest:
+      type: object
+      required:
+      - datasetId
+      properties:
+        datasetId:
+          type: string
+          description: The dataset to create rooms for.
+        datasetItemIds:
+          type: array
+          description: Optional subset of dataset item identifiers to create rooms for.
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+    VoiceCall:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          description: Call status.
+        scoring_status:
+          type: string
+          description: Scoring status of the call.
+        recording_url:
+          type: string
+        transcript:
+          type: string
     RunVoiceAgentRequest:
       type: object
       required:
@@ -157,12 +163,6 @@ components:
         to_number:
           type: string
           description: The phone number to place the simulated outbound call to.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: A human-readable error message.
   responses:
     Unauthorized:
       description: Missing or invalid API key.

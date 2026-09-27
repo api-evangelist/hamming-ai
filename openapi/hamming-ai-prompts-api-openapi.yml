@@ -78,6 +78,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
     Prompt:
       type: object
       properties:
@@ -90,12 +96,6 @@ components:
         content:
           type: string
           description: The prompt content.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: A human-readable error message.
   responses:
     Unauthorized:
       description: Missing or invalid API key.

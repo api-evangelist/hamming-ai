@@ -79,29 +79,24 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    CreateDatasetRequest:
+    Dataset:
       type: object
-      required:
-      - name
       properties:
+        id:
+          type: string
         name:
           type: string
-          description: The dataset name.
-        items:
-          type: array
-          description: Optional initial dataset items.
-          items:
-            $ref: '#/components/schemas/DatasetItem'
-    DatasetWithItems:
-      allOf:
-      - $ref: '#/components/schemas/Dataset'
-      - type: object
-        properties:
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/DatasetItem'
+        createdAt:
+          type: string
+          format: date-time
     DatasetItem:
       type: object
       properties:
@@ -116,29 +111,34 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    Dataset:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
         error:
           type: string
           description: A human-readable error message.
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    DatasetWithItems:
+      allOf:
+      - $ref: '#/components/schemas/Dataset'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/DatasetItem'
+    CreateDatasetRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The dataset name.
+        items:
+          type: array
+          description: Optional initial dataset items.
+          items:
+            $ref: '#/components/schemas/DatasetItem'
   securitySchemes:
     bearerAuth:
       type: http
