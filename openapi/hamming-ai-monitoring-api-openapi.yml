@@ -83,13 +83,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     IngestLogsRequest:
       type: object
@@ -101,12 +94,10 @@ components:
           items:
             type: object
             additionalProperties: true
-    Error:
+    CallLogRequest:
       type: object
-      properties:
-        error:
-          type: string
-          description: A human-readable error message.
+      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
+      additionalProperties: true
     IngestTracesRequest:
       type: object
       required:
@@ -117,10 +108,19 @@ components:
           items:
             type: object
             additionalProperties: true
-    CallLogRequest:
+    Error:
       type: object
-      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
-      additionalProperties: true
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

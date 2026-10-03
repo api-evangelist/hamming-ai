@@ -118,6 +118,35 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    EndExperimentItemRequest:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+          description: The output produced by the runner.
+        scores:
+          type: object
+          additionalProperties: true
+          description: A map of score name to score value.
+        status:
+          type: string
+          description: Terminal status of the item, e.g. FINISHED or FAILED.
+    StartExperimentItemRequest:
+      type: object
+      required:
+      - datasetItemId
+      properties:
+        datasetItemId:
+          type: string
+          description: The dataset item this experiment item evaluates.
+        input:
+          type: object
+          additionalProperties: true
+          description: The input provided to the runner.
+        metadata:
+          type: object
+          additionalProperties: true
     CreateExperimentRequest:
       type: object
       required:
@@ -137,41 +166,26 @@ components:
           type: object
           additionalProperties: true
           description: Arbitrary metadata to attach to the experiment.
-    EndExperimentItemRequest:
+    Experiment:
       type: object
       properties:
-        output:
-          type: object
-          additionalProperties: true
-          description: The output produced by the runner.
-        scores:
-          type: object
-          additionalProperties: true
-          description: A map of score name to score value.
+        id:
+          type: string
+        name:
+          type: string
+        datasetId:
+          type: string
         status:
           type: string
-          description: Terminal status of the item, e.g. FINISHED or FAILED.
+        createdAt:
+          type: string
+          format: date-time
     UpdateExperimentRequest:
       type: object
       properties:
         status:
           type: string
           description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
-    StartExperimentItemRequest:
-      type: object
-      required:
-      - datasetItemId
-      properties:
-        datasetItemId:
-          type: string
-          description: The dataset item this experiment item evaluates.
-        input:
-          type: object
-          additionalProperties: true
-          description: The input provided to the runner.
-        metadata:
-          type: object
-          additionalProperties: true
     Error:
       type: object
       properties:
@@ -195,27 +209,6 @@ components:
         scores:
           type: object
           additionalProperties: true
-    Experiment:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        datasetId:
-          type: string
-        status:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     ExperimentId:
       name: experimentId
@@ -224,6 +217,13 @@ components:
       description: The experiment identifier.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

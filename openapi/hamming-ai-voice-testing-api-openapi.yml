@@ -94,30 +94,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    RunVoiceAgentResponse:
-      type: object
-      properties:
-        voice_experiment_id:
-          type: string
-          description: The identifier of the created voice experiment.
-    CreateLivekitRoomsResponse:
-      type: object
-      properties:
-        experimentId:
-          type: string
-        rooms:
-          type: array
-          items:
-            type: object
-            properties:
-              roomName:
-                type: string
-              url:
-                type: string
-              datasetItemId:
-                type: string
-              token:
-                type: string
     CreateLivekitRoomsRequest:
       type: object
       required:
@@ -137,6 +113,23 @@ components:
         error:
           type: string
           description: A human-readable error message.
+    RunVoiceAgentRequest:
+      type: object
+      required:
+      - dataset_id
+      properties:
+        dataset_id:
+          type: string
+          description: The dataset of scenarios to run the agent against.
+        to_number:
+          type: string
+          description: The phone number to place the simulated outbound call to.
+    RunVoiceAgentResponse:
+      type: object
+      properties:
+        voice_experiment_id:
+          type: string
+          description: The identifier of the created voice experiment.
     VoiceCall:
       type: object
       properties:
@@ -152,17 +145,24 @@ components:
           type: string
         transcript:
           type: string
-    RunVoiceAgentRequest:
+    CreateLivekitRoomsResponse:
       type: object
-      required:
-      - dataset_id
       properties:
-        dataset_id:
+        experimentId:
           type: string
-          description: The dataset of scenarios to run the agent against.
-        to_number:
-          type: string
-          description: The phone number to place the simulated outbound call to.
+        rooms:
+          type: array
+          items:
+            type: object
+            properties:
+              roomName:
+                type: string
+              url:
+                type: string
+              datasetItemId:
+                type: string
+              token:
+                type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key.
