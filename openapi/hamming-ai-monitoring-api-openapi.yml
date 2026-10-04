@@ -84,6 +84,22 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+    IngestTracesRequest:
+      type: object
+      required:
+      - traces
+      properties:
+        traces:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     IngestLogsRequest:
       type: object
       required:
@@ -98,22 +114,6 @@ components:
       type: object
       description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
       additionalProperties: true
-    IngestTracesRequest:
-      type: object
-      required:
-      - traces
-      properties:
-        traces:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: A human-readable error message.
   responses:
     Unauthorized:
       description: Missing or invalid API key.

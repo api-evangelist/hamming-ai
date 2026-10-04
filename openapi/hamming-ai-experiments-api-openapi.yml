@@ -118,6 +118,45 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
+    Experiment:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        datasetId:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CreateExperimentRequest:
+      type: object
+      required:
+      - name
+      - datasetId
+      properties:
+        name:
+          type: string
+          description: A name for the experiment.
+        datasetId:
+          type: string
+          description: The dataset the experiment runs over.
+        dataset:
+          type: string
+          description: Alias accepted for the dataset identifier.
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Arbitrary metadata to attach to the experiment.
     EndExperimentItemRequest:
       type: object
       properties:
@@ -147,51 +186,12 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    CreateExperimentRequest:
-      type: object
-      required:
-      - name
-      - datasetId
-      properties:
-        name:
-          type: string
-          description: A name for the experiment.
-        datasetId:
-          type: string
-          description: The dataset the experiment runs over.
-        dataset:
-          type: string
-          description: Alias accepted for the dataset identifier.
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Arbitrary metadata to attach to the experiment.
-    Experiment:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        datasetId:
-          type: string
-        status:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
     UpdateExperimentRequest:
       type: object
       properties:
         status:
           type: string
           description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: A human-readable error message.
     ExperimentItem:
       type: object
       properties:

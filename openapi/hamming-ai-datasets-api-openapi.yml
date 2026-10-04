@@ -80,6 +80,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A human-readable error message.
     DatasetItem:
       type: object
       properties:
@@ -94,6 +100,19 @@ components:
         metadata:
           type: object
           additionalProperties: true
+    CreateDatasetRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The dataset name.
+        items:
+          type: array
+          description: Optional initial dataset items.
+          items:
+            $ref: '#/components/schemas/DatasetItem'
     Dataset:
       type: object
       properties:
@@ -113,25 +132,6 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/DatasetItem'
-    CreateDatasetRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The dataset name.
-        items:
-          type: array
-          description: Optional initial dataset items.
-          items:
-            $ref: '#/components/schemas/DatasetItem'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: A human-readable error message.
   responses:
     Unauthorized:
       description: Missing or invalid API key.
