@@ -1,0 +1,36 @@
+slug: hamming-ai
+provider: Hamming AI
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Monitoring
+  spec_file: hamming-ai-monitoring-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.7
+  evidence: POST /traces ingestTraces; POST /logs ingestLogs; POST /v2/call-logs ingestCallLog "Ingest
+    a production call log"
+  reason: Ingestion of traces, logs and production call logs for monitoring a running service is observability
+    instrumentation, not business-domain alerting.
+- tag: Voice Testing
+  spec_file: hamming-ai-voice-testing-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: POST /voice-agent/{agentId}/run "Run a voice agent against a dataset"; POST /test-runs/create-livekit-rooms
+    "Create LiveKit rooms for a test run"
+  reason: Operations execute automated test runs of a voice agent and retrieve the resulting calls — automated
+    test execution, i.e. software quality engineering. Not contact-centre telephony operations despite
+    the voice/call vocabulary.
