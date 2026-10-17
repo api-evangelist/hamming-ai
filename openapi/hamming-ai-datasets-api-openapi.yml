@@ -80,12 +80,44 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    CreateDatasetRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The dataset name.
+        items:
+          type: array
+          description: Optional initial dataset items.
+          items:
+            $ref: '#/components/schemas/DatasetItem'
+    DatasetWithItems:
+      allOf:
+      - $ref: '#/components/schemas/Dataset'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/DatasetItem'
     Error:
       type: object
       properties:
         error:
           type: string
           description: A human-readable error message.
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
     DatasetItem:
       type: object
       properties:
@@ -100,38 +132,6 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    CreateDatasetRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The dataset name.
-        items:
-          type: array
-          description: Optional initial dataset items.
-          items:
-            $ref: '#/components/schemas/DatasetItem'
-    Dataset:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-    DatasetWithItems:
-      allOf:
-      - $ref: '#/components/schemas/Dataset'
-      - type: object
-        properties:
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/DatasetItem'
   responses:
     Unauthorized:
       description: Missing or invalid API key.

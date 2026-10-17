@@ -84,6 +84,10 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    CallLogRequest:
+      type: object
+      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
+      additionalProperties: true
     Error:
       type: object
       properties:
@@ -110,10 +114,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    CallLogRequest:
-      type: object
-      description: A production call log payload. Hamming accepts provider call-ended event payloads (for example from Retell) for monitoring.
-      additionalProperties: true
   responses:
     Unauthorized:
       description: Missing or invalid API key.

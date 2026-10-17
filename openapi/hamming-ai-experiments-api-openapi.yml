@@ -124,6 +124,20 @@ components:
         error:
           type: string
           description: A human-readable error message.
+    EndExperimentItemRequest:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+          description: The output produced by the runner.
+        scores:
+          type: object
+          additionalProperties: true
+          description: A map of score name to score value.
+        status:
+          type: string
+          description: Terminal status of the item, e.g. FINISHED or FAILED.
     Experiment:
       type: object
       properties:
@@ -138,6 +152,12 @@ components:
         createdAt:
           type: string
           format: date-time
+    UpdateExperimentRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
     CreateExperimentRequest:
       type: object
       required:
@@ -157,20 +177,6 @@ components:
           type: object
           additionalProperties: true
           description: Arbitrary metadata to attach to the experiment.
-    EndExperimentItemRequest:
-      type: object
-      properties:
-        output:
-          type: object
-          additionalProperties: true
-          description: The output produced by the runner.
-        scores:
-          type: object
-          additionalProperties: true
-          description: A map of score name to score value.
-        status:
-          type: string
-          description: Terminal status of the item, e.g. FINISHED or FAILED.
     StartExperimentItemRequest:
       type: object
       required:
@@ -186,12 +192,6 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    UpdateExperimentRequest:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The experiment status, e.g. RUNNING, FINISHED, FAILED.
     ExperimentItem:
       type: object
       properties:
