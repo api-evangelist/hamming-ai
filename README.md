@@ -1,4 +1,4 @@
-# Hamming AI (hamming-ai)
+# Hamming AI
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,158 +66,126 @@
 
 Hamming AI is a testing, evaluation, and observability platform for voice and LLM AI agents. Its REST API runs experiments and voice/call test runs against your agents, manages datasets, registers custom scorers and evaluations, and ingests traces, logs, and production call logs for monitoring. A prompt optimizer and registry round out the platform.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/hamming-ai/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/hamming-ai/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Voice Agents · LLM · Testing · Evaluation · Observability
 
-## Tags
+## Hamming AI on APIs.io
 
-- AI
-- Voice Agents
-- LLM
-- Testing
-- Evaluation
-- Observability
+Everything profiled for Hamming AI is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hamming-ai/](https://apis.io/providers/hamming-ai/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (6)
 
-- **Created:** 2026-06-21
-- **Modified:** 2026-06-21
+- [Hamming AI Datasets API](https://apis.io/apis/hamming-ai/hamming-ai-datasets-api/) — Manage datasets of test cases and scenarios.
+- [Hamming AI Experiments API](https://apis.io/apis/hamming-ai/hamming-ai-experiments-api/) — Create and run experiments and experiment items.
+- [Hamming AI Monitoring API](https://apis.io/apis/hamming-ai/hamming-ai-monitoring-api/) — Ingest traces, logs, and production call logs.
+- [Hamming AI Prompts API](https://apis.io/apis/hamming-ai/hamming-ai-prompts-api/) — List and fetch versioned prompts from the registry.
+- [Hamming AI Scoring API](https://apis.io/apis/hamming-ai/hamming-ai-scoring-api/) — Register custom scoring functions.
+- [Hamming AI Voice Testing API](https://apis.io/apis/hamming-ai/hamming-ai-voice-testing-api/) — Run voice agents against datasets and retrieve experiment calls.
 
-## APIs
+### Published properties
 
-### Hamming Experiments & Test Runs API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Create experiments, start and end experiment items, and update experiment status to run repeatable evaluation runs against agent and LLM outputs over a dataset.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.hamming.ai/guides/evaluations](https://docs.hamming.ai/guides/evaluations)
-- **Base URL:** `https://app.hamming.ai/api/rest`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Hamming Ai Agentic Access](https://apis.io/agentic-access/hamming-ai/hamming-ai-agentic-access/)
 
-- Experiments
-- Test Runs
-- Evaluation
+#### Collections (7)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.hamming.ai/guides/evaluations)
-- [API Reference](https://docs.hamming.ai/guides/voice-agent-api)
-- [OpenAPI](openapi/hamming-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hamming-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hamming-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Hamming AI REST API](https://apis.io/collections/hamming-ai/open-hamming-ai/)
+- [Hamming AI REST Datasets API](https://apis.io/collections/hamming-ai/open-hamming-ai-datasets-api/)
+- [Hamming AI REST Datasets Experiments API](https://apis.io/collections/hamming-ai/open-hamming-ai-experiments-api/)
+- [Hamming AI REST Datasets Monitoring API](https://apis.io/collections/hamming-ai/open-hamming-ai-monitoring-api/)
+- [Hamming AI REST Datasets Prompts API](https://apis.io/collections/hamming-ai/open-hamming-ai-prompts-api/)
+- [Hamming AI REST Datasets Scoring API](https://apis.io/collections/hamming-ai/open-hamming-ai-scoring-api/)
+- [Hamming AI REST Datasets Voice Testing API](https://apis.io/collections/hamming-ai/open-hamming-ai-voice-testing-api/)
 
-### Hamming Voice & Call Testing API
+#### Security (2)
 
-Run a voice agent against a dataset of scenarios by placing simulated outbound calls, create LiveKit rooms for direct agent-to-agent test runs, and retrieve the calls produced by a voice experiment with their scoring status.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://docs.hamming.ai/guides/voice-agent-api](https://docs.hamming.ai/guides/voice-agent-api)
-- **Base URL:** `https://app.hamming.ai/api/rest`
+- [Hamming Ai Authentication](https://apis.io/security/hamming-ai/hamming-ai-authentication/)
+- [Hamming Ai Domain Security](https://apis.io/security/hamming-ai/hamming-ai-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Voice Agents
-- Call Testing
-- LiveKit
+Published plans, tiers and prices.
 
-#### Properties
+- [Hamming Ai Plans Pricing](https://apis.io/plans/hamming-ai/hamming-ai-plans-pricing/)
 
-- [Documentation](https://docs.hamming.ai/guides/voice-agent-api)
-- [API Reference](https://docs.hamming.ai/guides/voice-agent-testing)
-- [OpenAPI](openapi/hamming-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hamming-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hamming-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Hamming Datasets API
+Published request limits.
 
-List, create, and load datasets of test cases and conversation scenarios used as inputs for experiments and voice test runs.
+- [Hamming Ai Rate Limits](https://apis.io/rate-limits/hamming-ai/hamming-ai-rate-limits/)
 
-- **Human URL:** [https://docs.hamming.ai/guides/voice-agent-testing](https://docs.hamming.ai/guides/voice-agent-testing)
-- **Base URL:** `https://app.hamming.ai/api/rest`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Datasets
-- Test Cases
-- Scenarios
+- [Hamming Ai Finops](https://apis.io/finops/hamming-ai/hamming-ai-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://docs.hamming.ai/guides/voice-agent-testing)
-- [OpenAPI](openapi/hamming-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hamming-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hamming-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Hamming Scorers & Evaluations API
-
-Register custom scoring functions that compute scores over experiment results, complementing Hamming's library of built-in evaluation metrics.
-
-- **Human URL:** [https://docs.hamming.ai/guides/custom-scores](https://docs.hamming.ai/guides/custom-scores)
-- **Base URL:** `https://app.hamming.ai/api/rest`
-
-#### Tags
-
-- Scorers
-- Evaluations
-- Metrics
-
-#### Properties
-
-- [Documentation](https://docs.hamming.ai/guides/custom-scores)
-- [OpenAPI](openapi/hamming-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hamming-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hamming-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Hamming Monitoring & Tracing API
-
-Ingest traces and logs from instrumented agents and forward production voice call logs (e.g. provider call-ended payloads) for continuous monitoring of agent health and reliability in production.
-
-- **Human URL:** [https://docs.hamming.ai/guides/monitoring](https://docs.hamming.ai/guides/monitoring)
-- **Base URL:** `https://app.hamming.ai/api/rest`
-
-#### Tags
-
-- Monitoring
-- Tracing
-- Observability
-
-#### Properties
-
-- [Documentation](https://docs.hamming.ai/guides/monitoring)
-- [API Reference](https://docs.hamming.ai/guides/voice-agent-monitoring)
-- [OpenAPI](openapi/hamming-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hamming-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hamming-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Hamming Prompt Optimizer & Registry API
-
-List and fetch versioned, labeled prompts from the Hamming prompt registry to manage and optimize prompts used by agents under test.
-
-- **Human URL:** [https://docs.hamming.ai/guides/evaluations](https://docs.hamming.ai/guides/evaluations)
-- **Base URL:** `https://app.hamming.ai/api/rest`
-
-#### Tags
-
-- Prompts
-- Optimization
-- Registry
-
-#### Properties
-
-- [Documentation](https://docs.hamming.ai/guides/evaluations)
-- [OpenAPI](openapi/hamming-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hamming-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hamming-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/HammingHQ)
-- [LinkedIn](https://www.linkedin.com/company/hammingai)
 - [Website](https://hamming.ai/)
 - [Documentation](https://docs.hamming.ai)
-- [Plans](plans/hamming-ai-plans-pricing.yml)
-- [Rate Limits](rate-limits/hamming-ai-rate-limits.yml)
-- [Fin Ops](finops/hamming-ai-finops.yml)
+- [Blog](https://hamming.ai/blog)
+- [GitHub](https://github.com/HammingHQ)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 23.2** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 51.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 15.5 |
+| Access clarity | 5.3 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.9** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hamming-ai/](https://apis.io/providers/hamming-ai/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Hamming AI: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hamming-ai/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
